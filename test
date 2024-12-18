@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live TV Channel Switcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            margin: 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            max-width: 1600px;
+            margin-top: 20px;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live TV Channel Switcher</h1>
+    
+    <!-- Video player -->
+    <video id="videoPlayer" controls autoplay>
+        <source id="channelSource" src="" type="application/x-mpegURL">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // JavaScript to change channel based on URL query
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function changeChannel(channelURL) {
+            var videoPlayer = document.getElementById("videoPlayer");
+            var channelSource = document.getElementById("channelSource");
+            channelSource.src = channelURL;  // Update video source
+            videoPlayer.load();  // Reload the video player to apply the new source
+            videoPlayer.play();  // Play the new channel automatically
+        }
+
+        // Check the URL query for the channel parameter (e.g., ?channel=1)
+        var channel = getQueryParam('channel');
+        if (channel) {
+            switch(channel) {
+                case '1':
+                    changeChannel('https://dai.google.com/linear/hls/pa/event/cQOVg6jKSvusQAfYpTrUoQ/stream/89c63bb0-8c1e-4312-9286-a2122282ae9a:CHS/variant/81b33b6ab1e422da22b842d2aa78b730/bandwidth/3027000.m3u8');
+                    break;
+                case '2':
+                    changeChannel('https://ocshls-2-olympicchannel.akamaized.net/ocshls/OCTV_32.m3u8');
+                    break;
+                case '3':
+                    changeChannel('https://dai.google.com/linear/hls/pa/event/sfQoQ_zET42kay3DTlOY6Q/stream/6529f3d7-9891-481c-b600-03b0c3cceaca:TUL/variant/f3814d1565b9b6d1500e7dd4fe87beef/bandwidth/3102000.m3u8');
+                    break;
+                default:
+                    changeChannel('https://ocshls-2-olympicchannel.akamaized.net/ocshls/OCTV_32.m3u8');
+            }
+        } else {
+            changeChannel('https://path_to_default_channel.m3u8');  // Default channel if no query
+        }
+    </script>
+</body>
+</html>
+
